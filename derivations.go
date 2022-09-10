@@ -7,7 +7,7 @@ import "golang.org/x/exp/constraints"
 func DeriveFunc[T any](a []T, f func(current, derived T) T) T {
 	var derived T
 
-	if len(a) > 1 {
+	if len(a) > 1 && f != nil {
 		derived = a[0]
 		for i := 1; i < len(a); i++ {
 			derived = f(a[i], derived)

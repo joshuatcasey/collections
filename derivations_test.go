@@ -101,6 +101,14 @@ func testDerivations(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(sum).To(Equal("abcd"))
 		})
+
+		it("gracefully handles a nil func", func() {
+			strings := []int{1, 2, 3}
+
+			sum := collections.DeriveFunc(strings, nil)
+
+			Expect(sum).To(Equal(0))
+		})
 	})
 
 	context("Max", func() {
