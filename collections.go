@@ -4,6 +4,10 @@ package collections
 func FilterFunc[T any](a []T, f func(T) bool) []T {
 	result := make([]T, 0)
 
+	if f == nil {
+		return result
+	}
+
 	for _, t := range a {
 		if f(t) {
 			result = append(result, t)
@@ -15,7 +19,11 @@ func FilterFunc[T any](a []T, f func(T) bool) []T {
 
 // TransformFunc returns an array containing the result of f for all elements of a
 func TransformFunc[T, U any](a []T, f func(T) U) []U {
-	result := make([]U, 0)
+	result := empty[U]()
+
+	if f == nil {
+		return result
+	}
 
 	for _, t := range a {
 		result = append(result, f(t))
@@ -25,17 +33,26 @@ func TransformFunc[T, U any](a []T, f func(T) U) []U {
 }
 
 // TransformFuncWithError returns an array containing the result of f for all elements of a
-// and allows f to return an error
+// and allows f to return an error.
+// If f returns an error at any point, an empty array and the error are returned.
 func TransformFuncWithError[T, U any](a []T, f func(T) (U, error)) ([]U, error) {
-	result := make([]U, 0)
+	result := empty[U]()
+
+	if f == nil {
+		return result, nil
+	}
 
 	for _, t := range a {
 		if u, err := f(t); err != nil {
-			return []U{}, err
+			return empty[U](), err
 		} else {
 			result = append(result, u)
 		}
 	}
 
 	return result, nil
+}
+
+func empty[T any]() []T {
+	return make([]T, 0)
 }

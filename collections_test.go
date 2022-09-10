@@ -36,6 +36,11 @@ func testCollections(t *testing.T, context spec.G, it spec.S) {
 			})
 			Expect(filtered).To(BeEmpty())
 		})
+
+		it("will gracefully handle a nil func", func() {
+			filtered := collections.FilterFunc([]string{"a", "aa", "b", "bb", "bab"}, nil)
+			Expect(filtered).To(BeEmpty())
+		})
 	})
 
 	context("TransformFunc", func() {
@@ -44,6 +49,13 @@ func testCollections(t *testing.T, context spec.G, it spec.S) {
 				return i * 2
 			})
 			Expect(transformed).To(ConsistOf(2, 4, 6, 8, 10))
+		})
+
+		it("will transform types", func() {
+			transformed := collections.TransformFunc([]int{1, 2, 3, 4, 5}, func(i int) string {
+				return fmt.Sprintf("%d", i*2)
+			})
+			Expect(transformed).To(ConsistOf("2", "4", "6", "8", "10"))
 		})
 
 		it("will gracefully handle an empty input", func() {
@@ -57,6 +69,11 @@ func testCollections(t *testing.T, context spec.G, it spec.S) {
 			transformed := collections.TransformFunc(nil, func(s spec.Spec) bool {
 				return true
 			})
+			Expect(transformed).To(BeEmpty())
+		})
+
+		it("will gracefully handle a nil func", func() {
+			transformed := collections.TransformFunc[int, int]([]int{1, 2, 3, 4, 5}, nil)
 			Expect(transformed).To(BeEmpty())
 		})
 	})
@@ -82,6 +99,12 @@ func testCollections(t *testing.T, context spec.G, it spec.S) {
 			transformed, err := collections.TransformFuncWithError(nil, func(s spec.Spec) (string, error) {
 				return "", nil
 			})
+			Expect(err).NotTo(HaveOccurred())
+			Expect(transformed).To(BeEmpty())
+		})
+
+		it("will gracefully handle a nil func", func() {
+			transformed, err := collections.TransformFuncWithError[int, int]([]int{1, 2, 3, 4, 5}, nil)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(transformed).To(BeEmpty())
 		})
