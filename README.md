@@ -14,5 +14,5 @@ go get github.com/joshuatcasey/collections
 
 ## Testing
 ```shell
-go test ./... -v
+./scripts/unit.s
 ```
