@@ -44,7 +44,7 @@ func (s *Set[T]) Size() int {
 	return len(s.set)
 }
 
-// Contains indicates whether all elements are contained in the set
+// Contains returns true if and only if all elements are contained in the set
 func (s *Set[T]) Contains(elements ...T) bool {
 	for _, element := range elements {
 		if _, contains := s.set[element]; !contains {
