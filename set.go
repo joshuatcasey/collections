@@ -79,3 +79,11 @@ func (s *Set[T]) KeepOnly(other *Set[T]) {
 func (s *Set[T]) Elements() []T {
 	return maps.Keys(s.set)
 }
+
+// ForEach calls function f with each element of the set.
+// The order in which the elements will be called is not guaranteed.
+func (s *Set[T]) ForEach(f func(T)) {
+	for element := range s.set {
+		f(element)
+	}
+}

@@ -189,5 +189,14 @@ func testSet(t *testing.T, context spec.G, it spec.S) {
 		it("Elements", func() {
 			Expect(many.Elements()).To(ConsistOf(1, 2, 3))
 		})
+
+		it("ForEach", func() {
+			accumulator := 0
+			many.ForEach(func(i int) {
+				accumulator += i
+			})
+
+			Expect(accumulator).To(Equal(6))
+		})
 	})
 }
