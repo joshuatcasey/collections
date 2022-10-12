@@ -3,7 +3,7 @@ module github.com/joshuatcasey/collections
 go 1.19
 
 require (
-	github.com/onsi/gomega v1.21.1
+	github.com/onsi/gomega v1.22.1
 	github.com/sclevine/spec v1.4.0
 	golang.org/x/exp v0.0.0-20221011111909-0220f59fc3e4
 )
