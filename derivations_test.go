@@ -27,7 +27,7 @@ func testDerivations(t *testing.T, context spec.G, it spec.S) {
 			Expect(max).To(Equal(1000))
 		})
 
-		it("can be used to calculate the average from an array of float32", func() {
+		it("can be used to calculate the average from an array of float64", func() {
 			ints := []float64{-10.0, 20.0, -20.0, 10.0, 5.0}
 
 			count := 1.0
