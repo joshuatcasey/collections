@@ -2,7 +2,7 @@ package collections
 
 // FilterFunc returns an array containing only those elements of a for which f returns true
 func FilterFunc[T any](a []T, f func(T) bool) []T {
-	result := make([]T, 0)
+	result := empty[T]()
 
 	if f == nil {
 		return result

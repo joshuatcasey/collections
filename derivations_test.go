@@ -54,25 +54,25 @@ func testDerivations(t *testing.T, context spec.G, it spec.S) {
 		})
 
 		it("can be used to calculate the max from an array of structs", func() {
-			type StructWithInt struct {
-				Int int
+			type structWithInt struct {
+				int int
 			}
 
-			structs := []StructWithInt{
-				{Int: 1},
-				{Int: 0},
-				{Int: math.MinInt32},
-				{Int: 99},
+			structs := []structWithInt{
+				{int: 1},
+				{int: 0},
+				{int: math.MinInt32},
+				{int: 99},
 			}
 
-			maxStruct := collections.DeriveFunc(structs, func(current, max StructWithInt) StructWithInt {
-				if current.Int > max.Int {
+			maxStruct := collections.DeriveFunc(structs, func(current, max structWithInt) structWithInt {
+				if current.int > max.int {
 					return current
 				}
 				return max
 			})
 
-			Expect(maxStruct.Int).To(Equal(99))
+			Expect(maxStruct.int).To(Equal(99))
 		})
 
 		it("gracefully handles nil string array", func() {
@@ -84,15 +84,15 @@ func testDerivations(t *testing.T, context spec.G, it spec.S) {
 		})
 
 		it("gracefully handles nil struct array", func() {
-			type StructWithInt struct {
-				Int int
+			type structWithInt struct {
+				int int
 			}
 
-			derived := collections.DeriveFunc(nil, func(current, max StructWithInt) StructWithInt {
-				return StructWithInt{Int: 999}
+			derived := collections.DeriveFunc(nil, func(current, max structWithInt) structWithInt {
+				return structWithInt{int: 999}
 			})
 
-			Expect(derived).To(Equal(StructWithInt{Int: 0}))
+			Expect(derived).To(Equal(structWithInt{int: 0}))
 		})
 
 		it("can be used to sum an array of ints", func() {
@@ -115,12 +115,20 @@ func testDerivations(t *testing.T, context spec.G, it spec.S) {
 			Expect(sum).To(Equal("abcd"))
 		})
 
-		it("gracefully handles a nil func", func() {
-			strings := []int{1, 2, 3}
+		it("gracefully handles a nil func for int array", func() {
+			ints := []int{1, 2, 3}
+
+			sum := collections.DeriveFunc(ints, nil)
+
+			Expect(sum).To(Equal(0))
+		})
+
+		it("gracefully handles a nil func for string array", func() {
+			strings := []string{"a", "b", "c", "d"}
 
 			sum := collections.DeriveFunc(strings, nil)
 
-			Expect(sum).To(Equal(0))
+			Expect(sum).To(Equal(""))
 		})
 	})
 
